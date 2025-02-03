@@ -1,4 +1,4 @@
-import { Program, BN } from "@coral-xyz/anchor";
+import { Program, BN, Instruction } from "@coral-xyz/anchor";
 import { RaydiumClmm } from "../../target/types/raydium_clmm";
 import {
   Connection,
@@ -366,7 +366,8 @@ export async function addLiquidity(
     .preInstructions([
       ComputeBudgetProgram.setComputeUnitLimit({ units: 400000 }),
     ])
-    .signers([positionNftMint]);
+    .signers([positionNftMint])
+    .instruction();
 
   return { positionNftMint, personalPosition, protocolPosition, ix };
 }
@@ -443,46 +444,7 @@ export async function removeLiquidity(
     raydiumClmmProgramId
   );
 
-  // const tx = await program.methods
-  //   .removeLiquidity(liquidity, amount0Max, amount1Max)
-  //   .accounts({
-  //     clmmProgram: raydiumClmmProgramId,
-  //     payer: owner.publicKey,
-  //     positionNftOwner: owner.publicKey,
-  //     positionNftMint: positionNftMint.publicKey,
-  //     positionNftAccount: positionANftAccount,
-  //     metadataAccount,
-  //     poolState: new PublicKey(poolKeys.id),
-  //     protocolPosition,
-  //     tickArrayLower,
-  //     tickArrayUpper,
-  //     tokenAccount0: token0Account,
-  //     tokenAccount1: token1Account,
-  //     tokenVault0: new PublicKey(poolKeys.vault.A),
-  //     tokenVault1: new PublicKey(poolKeys.vault.B),
-  //     vault0Mint: new PublicKey(poolKeys.mintA.address),
-  //     vault1Mint: new PublicKey(poolKeys.mintB.address),
-  //     personalPosition,
-  //     systemProgram: SystemProgram.programId,
-  //     rent: SYSVAR_RENT_PUBKEY,
-  //     tokenProgram: TOKEN_PROGRAM_ID,
-  //     tokenProgram2022: TOKEN_2022_PROGRAM_ID,
-  //     memoProgram: MEMO_PROGRAM_ID,
-  //     associatedTokenProgram: ASSOCIATED_PROGRAM_ID,
-  //     metadataProgram: new PublicKey(
-  //       "metaqbxxUerdq28cj1RbAWkYQm3ybzjb6a8bt518x1s"
-  //     ),
-  //   })
-  //   .remainingAccounts([
-  //     { pubkey: bitmapExtension, isSigner: false, isWritable: true },
-  //   ])
-  //   .preInstructions([
-  //     ComputeBudgetProgram.setComputeUnitLimit({ units: 400000 }),
-  //   ])
-  //   .signers([positionNftMint])
-  //   .rpc(confirmOptions);
-
-    const ix = await program.methods
+  const ix = await program.methods
     .removeLiquidity(liquidity, amount0Max, amount1Max)
     .accounts({
       clmmProgram: raydiumClmmProgramId,
@@ -512,6 +474,13 @@ export async function removeLiquidity(
         "metaqbxxUerdq28cj1RbAWkYQm3ybzjb6a8bt518x1s"
       ),
     })
+    .remainingAccounts([
+      { pubkey: bitmapExtension, isSigner: false, isWritable: true },
+    ])
+    .preInstructions([
+      ComputeBudgetProgram.setComputeUnitLimit({ units: 400000 }),
+    ])
+    .signers([positionNftMint])
     .instruction();
 
   return { positionNftMint, personalPosition, protocolPosition, ix };
