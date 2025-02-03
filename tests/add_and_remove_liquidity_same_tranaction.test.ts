@@ -3,7 +3,7 @@ import { Program, BN } from "@coral-xyz/anchor";
 import { RaydiumClmm } from "../target/types/raydium_clmm";
 import { setupInitializeTest, initializeClmmPool, openPosition, addLiquidity, removeLiquidity } from "./utils";
 import { Raydium } from "@raydium-io/raydium-sdk-v2";
-import { Transaction } from "@solana/web3.js";
+import { sendAndConfirmTransaction, Transaction } from "@solana/web3.js";
 
 describe("add and remove liquidity same transaction test", () => {
   anchor.setProvider(anchor.AnchorProvider.env());
@@ -80,12 +80,15 @@ describe("add and remove liquidity same transaction test", () => {
       confirmOptions
     );
 
+    console.log(" addLiquidityIx:", addLiquidityIx);
+    console.log(" removeLiquidityIx:", removeLiquidityIx);
+
     const combinedIx = new Transaction()
       .add(addLiquidityIx)
       .add(removeLiquidityIx);
 
-    const combinedTx = await connection.sendTransaction(combinedIx, [owner]);
+    const combinedTx = await sendAndConfirmTransaction(connection, combinedIx, [owner]);
 
-    console.log(" tx:", combinedTx);
+    console.log(" combinedTx:", combinedTx);
   });
 });
