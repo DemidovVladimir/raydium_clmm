@@ -6,11 +6,9 @@ skip-lint = false
 
 [programs.localnet]
 raydium_clmm = "G6QgP9DbJ2u4fAdi34xC7jAJzKTZERvT7sqmmkgjAC9D"
-raydium_clmm_program = "devi51mZmdwUJGU9hjN27vEz64Gps7uUefqxg27EAtH"
 
 [programs.devnet]
 raydium_clmm = "G6QgP9DbJ2u4fAdi34xC7jAJzKTZERvT7sqmmkgjAC9D"
-raydium_clmm_program = "devi51mZmdwUJGU9hjN27vEz64Gps7uUefqxg27EAtH"
 
 [registry]
 url = "https://api.apr.dev"
