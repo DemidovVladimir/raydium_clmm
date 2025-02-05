@@ -5,10 +5,10 @@ resolution = true
 skip-lint = false
 
 [programs.localnet]
-raydium_clmm = "G6QgP9DbJ2u4fAdi34xC7jAJzKTZERvT7sqmmkgjAC9D"
+raydium_clmm = "57wsvUhKGJU5bqcF2XaXQa2Jna8eSvF1nFcbfrFExXnH"
 
 [programs.devnet]
-raydium_clmm = "G6QgP9DbJ2u4fAdi34xC7jAJzKTZERvT7sqmmkgjAC9D"
+raydium_clmm = "57wsvUhKGJU5bqcF2XaXQa2Jna8eSvF1nFcbfrFExXnH"
 
 [registry]
 url = "https://api.apr.dev"

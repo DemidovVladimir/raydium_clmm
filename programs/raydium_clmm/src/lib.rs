@@ -3,7 +3,7 @@ use anchor_lang::prelude::*;
 mod instructions;
 use instructions::*;
 
-declare_id!("G6QgP9DbJ2u4fAdi34xC7jAJzKTZERvT7sqmmkgjAC9D");
+declare_id!("57wsvUhKGJU5bqcF2XaXQa2Jna8eSvF1nFcbfrFExXnH");
 
 #[program]
 pub mod raydium_clmm {
