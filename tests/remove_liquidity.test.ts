@@ -42,7 +42,7 @@ describe("remove liquidity test", () => {
 
     const data = await raydium.clmm.getPoolInfoFromRpc(poolAddress.toString());
 
-    const { tx: openTx } = await openPosition(
+    const { positionNftMint, ix: openIx } = await openPosition(
       program,
       owner,
       data.poolKeys,
@@ -54,7 +54,7 @@ describe("remove liquidity test", () => {
       confirmOptions
     );
 
-    console.log(" openTx:", openTx);
+    console.log(" openIx:", openIx);
 
     const { ix: addLiquidityIx } = await addLiquidity(
       program,
@@ -65,6 +65,7 @@ describe("remove liquidity test", () => {
       new BN(10100000),
       new BN(10100000000),
       new BN(10100000000),
+      positionNftMint.publicKey,
       confirmOptions
     );
 
@@ -82,8 +83,9 @@ describe("remove liquidity test", () => {
       -10,
       10,
       new BN(10100000),
-      new BN(10100000000),
-      new BN(10100000000),
+      new BN(5048),
+      new BN(5048),
+      positionNftMint.publicKey,
       confirmOptions
     );
 

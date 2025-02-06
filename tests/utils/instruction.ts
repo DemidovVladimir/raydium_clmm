@@ -210,7 +210,7 @@ export async function openPosition(
     raydiumClmmProgramId
   );
 
-  const tx = await program.methods
+  const ix = await program.methods
     .openPosition(
       tickLowerIndex,
       tickUpperIndex,
@@ -257,7 +257,7 @@ export async function openPosition(
     .signers([positionNftMint])
     .rpc(confirmOptions);
 
-  return { positionNftMint, personalPosition, protocolPosition, tx };
+  return { positionNftMint, personalPosition, protocolPosition, ix };
 }
 
 export async function addLiquidity(
@@ -269,6 +269,7 @@ export async function addLiquidity(
   liquidity: BN,
   amount0Max: BN,
   amount1Max: BN,
+  positionNftMint: PublicKey,
   confirmOptions?: ConfirmOptions
 ) {
    // prepare tickArray
@@ -290,18 +291,18 @@ export async function addLiquidity(
     raydiumClmmProgramId,
     tickArrayUpperStartIndex
   );
-  const positionNftMint = Keypair.generate();
+
   const positionANftAccount = getAssociatedTokenAddressSync(
-    positionNftMint.publicKey,
+    positionNftMint,
     owner.publicKey
   );
 
   const metadataAccount = (
-    await getNftMetadataAddress(positionNftMint.publicKey)
+    await getNftMetadataAddress(positionNftMint)
   )[0];
 
   const [personalPosition] = await getPersonalPositionAddress(
-    positionNftMint.publicKey,
+    positionNftMint,
     raydiumClmmProgramId
   );
 
@@ -357,10 +358,9 @@ export async function addLiquidity(
     .preInstructions([
       ComputeBudgetProgram.setComputeUnitLimit({ units: 400000 }),
     ])
-    .signers([positionNftMint])
     .instruction();
 
-  return { positionNftMint, personalPosition, protocolPosition, ix };
+  return { personalPosition, protocolPosition, ix };
 }
 
 
@@ -373,6 +373,7 @@ export async function removeLiquidity(
   liquidity: BN,
   amount0Max: BN,
   amount1Max: BN,
+  positionNftMint: PublicKey,
   confirmOptions?: ConfirmOptions
 ) {
    // prepare tickArray
@@ -394,18 +395,17 @@ export async function removeLiquidity(
     raydiumClmmProgramId,
     tickArrayUpperStartIndex
   );
-  const positionNftMint = Keypair.generate();
   const positionANftAccount = getAssociatedTokenAddressSync(
-    positionNftMint.publicKey,
+    positionNftMint,
     owner.publicKey
   );
 
   const metadataAccount = (
-    await getNftMetadataAddress(positionNftMint.publicKey)
+    await getNftMetadataAddress(positionNftMint)
   )[0];
 
   const [personalPosition] = await getPersonalPositionAddress(
-    positionNftMint.publicKey,
+    positionNftMint,
     raydiumClmmProgramId
   );
 
@@ -462,8 +462,7 @@ export async function removeLiquidity(
     .preInstructions([
       ComputeBudgetProgram.setComputeUnitLimit({ units: 400000 }),
     ])
-    .signers([positionNftMint])
     .instruction();
 
-  return { positionNftMint, personalPosition, protocolPosition, ix };
+  return { personalPosition, protocolPosition, ix };
 }

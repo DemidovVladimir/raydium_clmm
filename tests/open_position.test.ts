@@ -41,7 +41,7 @@ describe("open position test", () => {
 
     const data = await raydium.clmm.getPoolInfoFromRpc(poolAddress.toString());
 
-    const { tx: openTx } = await openPosition(
+    const { positionNftMint, ix: openIx } = await openPosition(
       program,
       owner,
       data.poolKeys,
@@ -53,6 +53,6 @@ describe("open position test", () => {
       confirmOptions
     );
 
-    console.log(" openTx:", openTx);
+    console.log(" openIx:", openIx);
   });
 });
